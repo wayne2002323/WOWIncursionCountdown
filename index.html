@@ -68,7 +68,7 @@
   function next(){
      spantime = 19 * 60 * 60;
      spantime2 = 6 * 60 * 60;
-     arrayindex = arrayindex +1;
+     arrayindex = arrayindex == 5 ? 0 : arrayindex +1;
   }
   function UTCtoGMT8(utctime) {
     var dt = new Date(utctime);
