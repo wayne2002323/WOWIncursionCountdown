@@ -23,7 +23,7 @@ window.dataLayer = window.dataLayer || [];
         background-color: black;
     }
 
-    .title  {
+    .title {
         text-align: center;
         color: white;
         font-size: 50px;
@@ -51,10 +51,43 @@ window.dataLayer = window.dataLayer || [];
         font-size: 50px;
         text-align: center;
     }
-    .container{
-      position:relative; 
- 
+
+    .container {
+        position: relative;
+
     }
+
+    .table {
+        color: white;
+        text-align: center;
+        display: table;
+        width: 35%;
+        margin: 0px auto;
+    }
+
+    .tabletr {
+        display: table-row;
+        color: black;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .tabletd {
+        display: table-cell;
+        border-bottom-color: black;
+        border-bottom-style: groove;
+    }
+
+    .tdtime {
+        width: 70%;
+        background-color: orange;
+    }
+
+    .tdplace {
+        width: 30%;
+        background-color: #E91E63;
+    }
+
     footer {
         color: white;
         text-align: center;
@@ -62,6 +95,12 @@ window.dataLayer = window.dataLayer || [];
         position: absolute;
         height: 50px;
         width: 95vw;
+    }
+
+    @media screen and (max-width: 426px) {
+        .table {
+            width: 100%;
+        }
     }
 </style>
 </head>
@@ -85,6 +124,7 @@ window.dataLayer = window.dataLayer || [];
 
   $(document).ready(function () {
     set()
+    getNextTable(3);
   });
 
       function set() {
@@ -120,7 +160,7 @@ window.dataLayer = window.dataLayer || [];
         spantime = 19 * 60 * 60;
         spantime2 = 7 * 60 * 60;
         arrayindex = arrayindex == 5 ? 0 : arrayindex + 1;
-
+        getNextTable(3);
     }
 
     function UTCtoGMT8(utctime) {
@@ -152,6 +192,21 @@ window.dataLayer = window.dataLayer || [];
             m: m,
             s: s,
             timestr: timestr
+        }      
+    }
+      function getNextTable(count) {
+        $('#nexttable').html('');
+        var placeindex = arrayindex;
+        for (var i = 1; i <= count; i++) {
+            var times = nexttimes + i;
+            var startdates = new Date(new Date('2019/1/11 05:00').setHours(new Date('2019/1/11 05:00').getHours() + times * 19));
+            var enddates = new Date(new Date('2019/1/11 05:00').setHours(new Date('2019/1/11 05:00').getHours() + times * 19 + 7));
+            placeindex = placeindex == 5 ? 0 : placeindex + 1;
+            var content = '<div class="tabletr">' +
+                '<div class="tabletd tdtime" >' + UTCtoGMT8(startdates) + '<br/>' + UTCtoGMT8(enddates) + '</div>' +
+                '<div class="tabletd tdplace" >' + eventarray[placeindex] + '</div>' +
+                '</div>';
+            $('#nexttable').append(content);
         }
     }
 </script>
@@ -162,6 +217,7 @@ window.dataLayer = window.dataLayer || [];
     <div class="text" id="NEXTplace"></div>
     <div class="text textdate" id="NEXTDates"></div>
     <div class="text texttime" id="NEXTtimes"></div>
+    <div class="table" id="nexttable"></div>
     <footer>Designed By 馬神-冰霜之刺</footer>
 </body> 
 </html>
