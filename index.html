@@ -181,9 +181,9 @@ window.dataLayer = window.dataLayer || [];
         var m = Math.floor((spantime % 3600) / (60));
         var s = Math.floor(spantime % 60);
 
-        var hh = h + (d * 24);
-        var mm = m;
-        var ss = s;
+        var hh = padLeft(h + (d * 24),2);
+        var mm = padLeft(m,2);
+        var ss = padLeft(s,2);
         var timestr = hh + ":" + mm + ":" + ss;
 
         return {
@@ -194,7 +194,7 @@ window.dataLayer = window.dataLayer || [];
             timestr: timestr
         }      
     }
-      function getNextTable(count) {
+    function getNextTable(count) {
         $('#nexttable').html('');
         var placeindex = arrayindex;
         for (var i = 1; i <= count; i++) {
@@ -208,6 +208,10 @@ window.dataLayer = window.dataLayer || [];
                 '</div>';
             $('#nexttable').append(content);
         }
+    }
+  
+    function padLeft(nr, n, str){
+      return Array(n-String(nr).length+1).join(str||'0')+nr;
     }
 </script>
 
