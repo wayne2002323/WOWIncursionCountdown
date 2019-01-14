@@ -9,97 +9,153 @@
   integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
   crossorigin="anonymous"></script>
 <script src='jquery.timers.js' type='text/javascript'></script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-132419840-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-132419840-1');
+</script>
 <style type="text/css">
-  .body{
-    text-align: center;
-  }
-  .text{
-    font-size: -webkit-xxx-large;
-  }
+  .body {
+
+        background-color: black;
+    }
+
+    .title {
+        text-align: center;
+        color: white;
+        font-size: 140px;
+        margin-bottom: 20px;
+        font-family: Tahoma;
+        width: 100vw;
+    }
+
+    .text {
+        text-align: left;
+        color: white;
+        font-size: 80px;
+        margin-bottom: 20px;
+        font-family: Tahoma;
+        width: 100vw;
+    }
+
+    .textdate {
+        font-size: 100px;
+        text-align: center;
+    }
+
+    .texttime {
+        font-size: 140px;
+        text-align: center;
+    }
+
+    footer {
+        color: white;
+        text-align: center;
+        margin-top: 30vh;
+        font-size: 30px;
+    }
 </style>
 </head>
 <body class="body">  
 <script type='text/javascript'>
-  var firstDate = new Date('2019/1/11 05:00');
-  var thisDate = new Date();
+    var firstDate = new Date('2019/1/11 05:00');
+    var thisDate = new Date();
 
-  var hours = Math.abs(thisDate - firstDate) / 36e5;
+    var hours = Math.abs(thisDate - firstDate) / 36e5;
 
-  var nexttimes = parseInt((parseInt(hours) / 19))+1;
-  var nextDate = new Date(firstDate.setHours(firstDate.getHours()+ nexttimes*19));
+    var nexttimes = parseInt((parseInt(hours) / 19)) + 1;
+    var nextDate = new Date(new Date('2019/1/11 05:00').setHours(new Date('2019/1/11 05:00').getHours() + nexttimes * 19));
 
-  var arrayindex = parseInt((parseInt(hours) / 19) % 6) ;
-  var spantime = (nextDate - thisDate)/1000;
-  var spantime2 = 0;
+    var thistimes = parseInt((parseInt(hours) / 19));
+    var thistimeDate = new Date(new Date('2019/1/11 05:00').setHours(new Date('2019/1/11 05:00').getHours() + thistimes * 19 + 7));
+
+    var arrayindex = parseInt((parseInt(hours) / 19) % 6);
+    var spantime = (nextDate - thisDate) / 1000;
+    var spantime2 = (thistimeDate - thisDate) / 1000;
   var eventarray=['祖達薩','提拉加德海灣','納茲米爾',',斯陀頌恩谷地','沃魯敦','佐司瓦'];
 
   $(document).ready(function () {
     set()
   });
 
-  function set(){
-      $(this).everyTime('1s', function(i) {
-       spantime --;
-       spantime2 --;
-       var d = Math.floor(spantime / (24 * 3600));
-       var h = Math.floor((spantime % (24 * 3600)) / 3600);
-       var m = Math.floor((spantime % 3600) / (60));
-       var s = Math.floor(spantime % 60);
+      function set() {
+        $(this).everyTime('1s', function(i) {
+            spantime--;
+            spantime2--;
 
-       var b_d = Math.floor(spantime2 / (24 * 3600));
-       var b_h = Math.floor((spantime2 % (24 * 3600)) / 3600);
-       var b_m = Math.floor((spantime2 % 3600) / (60));
-       var b_s = Math.floor(spantime2 % 60);
+            if (spantime > 0) {
+                var strTime = getTimeFormat(spantime).timestr;
+                var b_strTime = getTimeFormat(spantime2).timestr;
 
-      if (spantime > 0) {
-        var hh = h + (d*24);
+                var nowindex = arrayindex == 0 ? 5 : arrayindex - 1;
+                b_strTime = spantime2 < 0 ? '已結束' : b_strTime;
+
+                // $('#place').html('目前在=>' + eventarray[nowindex] + '(' + b_strTime + ')');
+                // $('#NEXTplace').html('下一次=>' + eventarray[arrayindex]  + '(' + strTime + ')');
+                $('#place').html('目前在:' + eventarray[nowindex]);
+                $('#times').html(b_strTime);
+                $('#NEXTplace').html('下一次:' + eventarray[arrayindex]);
+                $('#NEXTDates').html(UTCtoGMT8(nextDate));
+                $('#NEXTtimes').html(strTime);
+            } else {
+                $('#place').html('');
+                $('#NEXTplace').html('');
+                $('#times').html('');
+                $('#NEXTtimes').html('');
+                next();
+            }
+        });
+    }
+
+    function next() {
+        spantime = 19 * 60 * 60;
+        spantime2 = 7 * 60 * 60;
+        arrayindex = arrayindex == 5 ? 0 : arrayindex + 1;
+
+    }
+
+    function UTCtoGMT8(utctime) {
+        var dt = new Date(utctime);
+        if (utctime == undefined) {
+            dt = new Date();
+        }
+        var date = [
+            [dt.getFullYear(), dt.getMonth() + 1, dt.getDate()].join('-'),
+            [dt.getHours(), dt.getMinutes(), dt.getSeconds()].join(':')
+        ].join(' ').replace(/(?=\b\d\b)/g, '0');
+        return date;
+    }
+
+    function getTimeFormat(spantime) {
+        var d = Math.floor(spantime / (24 * 3600));
+        var h = Math.floor((spantime % (24 * 3600)) / 3600);
+        var m = Math.floor((spantime % 3600) / (60));
+        var s = Math.floor(spantime % 60);
+
+        var hh = h + (d * 24);
         var mm = m;
         var ss = s;
-        var strTime =  hh + ":" + mm + ":" + ss;
+        var timestr = hh + ":" + mm + ":" + ss;
 
-        var b_hh = b_h + (b_d*24);
-        var b_mm = b_m;
-        var b_ss = b_s;
-        var b_strTime =  b_hh + ":" + b_mm + ":" + b_ss;
-
-        var nowindex = arrayindex == 0 ? 5 : arrayindex-1;
-        b_strTime = spantime2 < 0 ? '已結束' : b_strTime;
-
-        $('#place').html('目前在=>'+eventarray[nowindex]);
-        $('#times').html('目前剩=>'+b_strTime);
-
-        $('#NEXTplace').html('下一次=>'+eventarray[arrayindex]);
-        $('#NEXTtimes').html('剩下=>'+strTime);
-      } else { 
-        $('#place').html('');
-        $('#times').html('');
-        $('#NEXTplace').html('');
-        $('#NEXTtimes').html('');
-        next();
-      }
-    });
-  }
-  function next(){
-     spantime = 19 * 60 * 60;
-     spantime2 = 6 * 60 * 60;
-     arrayindex = arrayindex == 5 ? 0 : arrayindex +1;
-  }
-  function UTCtoGMT8(utctime) {
-    var dt = new Date(utctime);
-    if (utctime == undefined) {
-        dt = new Date();
+        return {
+            d: d,
+            h: h,
+            m: m,
+            s: s,
+            timestr: timestr
+        }
     }
-    var date = [
-        [dt.getFullYear(), dt.getMonth() + 1, dt.getDate()].join('-'),
-        [dt.getHours(), dt.getMinutes(), dt.getSeconds()].join(':')
-    ].join(' ').replace(/(?=\b\d\b)/g, '0');
-    return date;
-}
 </script>
 
-<div class="text"  id="NEXTplace"></div>
-<div class="text"  id="NEXTtimes"></div>
-<div class="text"  id="place"></div>
-<div class="text"  id="times"></div>
+    <h1 class="title" id="title"> 衝突戰倒數</h1>
+    <div class="text" id="place"></div>
+    <div class="text texttime" id="times"></div>
+    <div class="text" id="NEXTplace"></div>
+    <div class="text textdate" id="NEXTDates"></div>
+    <div class="text texttime" id="NEXTtimes"></div>
+    <footer>Designed By 馬神-冰霜之刺</footer>
 </body> 
 </html>
