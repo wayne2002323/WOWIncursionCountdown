@@ -157,7 +157,7 @@ window.dataLayer = window.dataLayer || [];
                 $('#NEXTDates').html(UTCtoGMT8(nextDate));
                 $('#NEXTtimes').html(strTime);
 
-                if(sp.h < 2 || spantime < 0){
+                if(sp.h < 1 || spantime < 0){
                     $('#NEXTtimes').removeClass('Whitefont');
                     $('#NEXTtimes').addClass('Redfont');
                 }
@@ -166,7 +166,7 @@ window.dataLayer = window.dataLayer || [];
                     $('#NEXTtimes').addClass('Whitefont');
                 }
 
-                if(sp2.h < 2 || spantime2 < 0){
+                if(sp2.h < 1 || spantime2 < 0){
                     $('#times').removeClass('Whitefont');
                     $('#times').addClass('Redfont');
                 }
