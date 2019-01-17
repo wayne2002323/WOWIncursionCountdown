@@ -132,6 +132,7 @@ window.dataLayer = window.dataLayer || [];
   var eventarray=['祖達薩','提拉加德海灣','納茲米爾','斯陀頌恩谷地','沃魯敦','佐司瓦'];
 
   $(document).ready(function () {
+    $('#NEXTDates').html(UTCtoGMT8(thisDate));
     set()
     getNextTable(3);
   });
@@ -246,7 +247,7 @@ window.dataLayer = window.dataLayer || [];
     <div class="text" >目前在:<label id="place" style="color:#FFEB3B"> </label></div>
     <div class="text texttime" id="times">00:00:00</div>
     <div class="text" >下一次:<label id="NEXTplace" style="color:#FFEB3B"> </label></div>
-    <div class="text textdate" id="NEXTDates">2019-01-01 00:00:00</div>
+    <div class="text textdate" id="NEXTDates"></div>
     <div class="text texttime" id="NEXTtimes">00:00:00</div>
     <div class="table" id="nexttable"></div>
     <footer>Designed By 馬神-冰霜之刺</footer>
