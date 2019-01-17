@@ -1,6 +1,7 @@
 <html> 
 <head>
 <title>WOW 衝突戰倒數計時</title>
+<meta name="description" content="魔獸世界8.1 台服衝突戰倒數計時" />
 <link rel="icon" type="image/png" sizes="64x64" href="https://codetheweb.blog/assets/img/posts/html-icons/icon64.png">
 <link rel="apple-touch-icon" sizes="180x180" href="https://codetheweb.blog/assets/img/posts/html-icons/icon180.png">
 <meta name="msapplication-TileColor" content="#2e2e2e">
@@ -87,6 +88,14 @@ window.dataLayer = window.dataLayer || [];
         width: 30%;
         background-color: #E91E63;
     }
+  
+    .Redfont{
+        color: red;
+    }
+    .Whitefont{
+        color: white;
+    }
+  
 
     footer {
         color: white;
@@ -133,19 +142,37 @@ window.dataLayer = window.dataLayer || [];
             spantime2--;
 
             if (spantime > 0) {
-                var strTime = getTimeFormat(spantime).timestr;
-                var b_strTime = getTimeFormat(spantime2).timestr;
+                var sp = getTimeFormat(spantime);
+                var sp2 = getTimeFormat(spantime2);
+                var strTime = sp.timestr;
+                var b_strTime = sp2.timestr;
 
                 var nowindex = arrayindex == 0 ? 5 : arrayindex - 1;
                 b_strTime = spantime2 < 0 ? '已結束' : b_strTime;
 
-                // $('#place').html('目前在=>' + eventarray[nowindex] + '(' + b_strTime + ')');
-                // $('#NEXTplace').html('下一次=>' + eventarray[arrayindex]  + '(' + strTime + ')');
-                $('#place').html('目前在:' + eventarray[nowindex]);
+                $('#place').html(eventarray[nowindex]);
                 $('#times').html(b_strTime);
-                $('#NEXTplace').html('下一次:' + eventarray[arrayindex]);
+                $('#NEXTplace').html(eventarray[arrayindex]);
                 $('#NEXTDates').html(UTCtoGMT8(nextDate));
                 $('#NEXTtimes').html(strTime);
+
+                if(sp.h < 2 || spantime < 0){
+                    $('#NEXTtimes').removeClass('Whitefont');
+                    $('#NEXTtimes').addClass('Redfont');
+                }
+                else{
+                    $('#NEXTtimes').removeClass('Redfont');
+                    $('#NEXTtimes').addClass('Whitefont');
+                }
+
+                if(sp2.h < 2 || spantime2 < 0){
+                    $('#times').removeClass('Whitefont');
+                    $('#times').addClass('Redfont');
+                }
+                else{
+                    $('#times').removeClass('Redfont');
+                    $('#times').addClass('Whitefont');
+                }
             } else {
                 $('#place').html('');
                 $('#NEXTplace').html('');
@@ -215,7 +242,7 @@ window.dataLayer = window.dataLayer || [];
     }
 </script>
 
-    <h1 class="title" id="title"> 衝突戰倒數</h1>
+    <h1 class="title" id="title">衝突戰倒數</h1>
     <div class="text" id="place"></div>
     <div class="text texttime" id="times"></div>
     <div class="text" id="NEXTplace"></div>
