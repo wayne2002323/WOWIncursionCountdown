@@ -1,9 +1,9 @@
 <html> 
 <head>
-<title>WOW 衝突戰倒數計時</title>
-<meta name="description" content="魔獸世界8.1 台服衝突戰倒數計時" />
-<link rel="icon" type="image/png" sizes="70x07" href="images/wowbl70.png">
-<link rel="apple-touch-icon" sizes="180x180" href="images/wowbl180.png">
+<title>WOW 成就-冰冷黑暗的爪牙</title>
+<meta name="description" content="魔獸世界9.1 冰冷黑暗的爪牙倒數計時" />
+<link rel="icon" type="image/png" sizes="70x07" href="images/inv_mawguardhandmountwhite_70.png">
+<link rel="apple-touch-icon" sizes="180x180" href="images/inv_mawguardhandmountwhite_180.png">
 <meta name="msapplication-TileColor" content="#2e2e2e">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1">
 <script
@@ -11,13 +11,13 @@
   integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
   crossorigin="anonymous"></script>
 <script src='jquery.timers.js' type='text/javascript'></script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-132419840-1"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=278145443"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'UA-132419840-1');
+  gtag('config', '278145443');
 </script>
 <style type="text/css">
   .body {
@@ -96,7 +96,10 @@ window.dataLayer = window.dataLayer || [];
         color: white;
     }
   
-
+    .note{
+        color: red;
+        font-size: 0.9em;
+    }
     footer {
         color: white;
         text-align: center;
@@ -115,26 +118,24 @@ window.dataLayer = window.dataLayer || [];
 </head>
 <body class="body">  
 <script type='text/javascript'>
-    var firstDate = new Date('2019/1/11 05:00');
+    var firstDate = new Date('2021/7/5 15:00');
     var thisDate = new Date();
 
     var hours = Math.abs(thisDate - firstDate) / 36e5;
 
-    var nexttimes = parseInt((parseInt(hours) / 19)) + 1;
-    var nextDate = new Date(new Date('2019/1/11 05:00').setHours(new Date('2019/1/11 05:00').getHours() + nexttimes * 19));
+    var nextDate = new Date(new Date('2021/7/5 19:00').setHours(new Date('2021/7/9 19:00').getHours()));
+    var thistimeDate = new Date(new Date('2021/7/5 17:00').setHours(new Date('2019/7/5 17:00').getHours()));
 
-    var thistimes = parseInt((parseInt(hours) / 19));
-    var thistimeDate = new Date(new Date('2019/1/11 05:00').setHours(new Date('2019/1/11 05:00').getHours() + thistimes * 19 + 7));
-
-    var arrayindex = parseInt((parseInt(hours) / 19) % 6);
+    var arrayindex = parseInt((parseInt(hours) / 2) % 15);
     var spantime = (nextDate - thisDate) / 1000;
     var spantime2 = (thistimeDate - thisDate) / 1000;
-  var eventarray=['祖達薩','提拉加德海灣','納茲米爾','斯陀頌恩谷地','沃魯敦','佐司瓦'];
+  	var eventarray=['葛爾包亞','群魂重擔','痛苦化身','詛咒的維西亞','剝皮者祖加斯','巨怪戈馬克','哨兵派洛夫斯','吞魂者穆格姆','『哨兵』卡吉亞',
+  	'普羅馬提茲','哨兵沙科吉斯','仲裁者拉扎剌','古魯庫亞長老','作祟者埃捷爾','錘骨葛拉奇'];
 
   $(document).ready(function () {
     $('#NEXTDates').html(UTCtoGMT8(thisDate));
     set()
-    getNextTable(3);
+    getNextTable(10);
   });
 
       function set() {
@@ -148,12 +149,12 @@ window.dataLayer = window.dataLayer || [];
                 var strTime = sp.timestr;
                 var b_strTime = sp2.timestr;
 
-                var nowindex = arrayindex == 0 ? 5 : arrayindex - 1;
+                var nowindex = arrayindex === eventarray.length + 1 ? 0 : arrayindex;
                 b_strTime = spantime2 < 0 ? '已結束' : b_strTime;
 
                 $('#place').html(eventarray[nowindex]);
                 $('#times').html(b_strTime);
-                $('#NEXTplace').html(eventarray[arrayindex]);
+                $('#NEXTplace').html(eventarray[nowindex + 1]);
                 $('#NEXTDates').html(UTCtoGMT8(nextDate));
                 $('#NEXTtimes').html(strTime);
 
@@ -185,10 +186,10 @@ window.dataLayer = window.dataLayer || [];
     }
 
     function next() {
-        spantime = 19 * 60 * 60;
-        spantime2 = 7 * 60 * 60;
-        arrayindex = arrayindex == 5 ? 0 : arrayindex + 1;
-        getNextTable(3);
+        spantime = 2 * 60 * 60;
+        spantime2 = 2 * 60 * 60;
+        arrayindex = arrayindex === eventarray.length + 1 ? 0 : arrayindex + 1;
+        getNextTable(10);
     }
 
     function UTCtoGMT8(utctime) {
@@ -224,14 +225,13 @@ window.dataLayer = window.dataLayer || [];
     }
     function getNextTable(count) {
         $('#nexttable').html('');
-        var placeindex = arrayindex;
+        var placeindex = arrayindex + 1;
         for (var i = 1; i <= count; i++) {
-            var times = nexttimes + i;
-            var startdates = new Date(new Date('2019/1/11 05:00').setHours(new Date('2019/1/11 05:00').getHours() + times * 19));
-            var enddates = new Date(new Date('2019/1/11 05:00').setHours(new Date('2019/1/11 05:00').getHours() + times * 19 + 7));
-            placeindex = placeindex == 5 ? 0 : placeindex + 1;
+            var times = (placeindex)  * 2;
+            var startdates = new Date(new Date('2021/7/5 17:00').setHours(new Date('2021/7/5 17:00').getHours() + (times)));
+            placeindex = placeindex === eventarray.length + 1 ? 0 : placeindex + 1;
             var content = '<div class="tabletr">' +
-                '<div class="tabletd tdtime" >' + UTCtoGMT8(startdates) + '<br/>' + UTCtoGMT8(enddates) + '</div>' +
+                '<div class="tabletd tdtime" >' + UTCtoGMT8(startdates) + '</div>' +
                 '<div class="tabletd tdplace" >' + eventarray[placeindex] + '</div>' +
                 '</div>';
             $('#nexttable').append(content);
@@ -243,13 +243,14 @@ window.dataLayer = window.dataLayer || [];
     }
 </script>
 
-    <h1 class="title" id="title">衝突戰倒數</h1>
+    <h1 class="title" id="title">成就-冰冷黑暗的爪牙</h1>
+    <div class="text note">ps: 剛改版人潮眾多，通常開場後5分鐘內事件即結束</div>
     <div class="text" >目前在:<label id="place" style="color:#FFEB3B"> </label></div>
     <div class="text texttime" id="times">00:00:00</div>
     <div class="text" >下一次:<label id="NEXTplace" style="color:#FFEB3B"> </label></div>
     <div class="text textdate" id="NEXTDates"></div>
     <div class="text texttime" id="NEXTtimes">00:00:00</div>
     <div class="table" id="nexttable"></div>
-    <footer>Designed By 馬神-冰霜之刺</footer>
+    <footer>2021 Designed By 馬神-冰霜之刺</footer>
 </body> 
 </html>
